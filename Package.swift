@@ -11,11 +11,16 @@ let package = Package(
             name: "FlutterIosPocPackage",
             targets: ["FlutterIosPocPackage"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.9.1")),
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "FlutterIosPocPackage"),
+            name: "FlutterIosPocPackage",
+            dependencies: ["Alamofire"]
+        ),
         .testTarget(
             name: "FlutterIosPocPackageTests",
             dependencies: ["FlutterIosPocPackage"]),
