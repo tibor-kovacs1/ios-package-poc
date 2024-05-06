@@ -7,14 +7,13 @@
 
 import UIKit
 import Foundation
+import WebKit
 
 @available(iOS 13.0, *)
-public class UIController:UIViewController, ObservableObject {
+public class UIController:UIViewController, ObservableObject, WKNavigationDelegate {
     @Published var activeBlock: String?
-    
     let apiManager = APIManager()
-        
-
+    
     
     @Sendable func getInit() {
         apiManager.fetchInit { result in
