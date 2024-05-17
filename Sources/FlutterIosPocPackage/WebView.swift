@@ -11,10 +11,12 @@ import WebKit
 struct NativeWebView: UIViewRepresentable {
     let url: URL
     let onClose: () -> Void
+    var initialFrame: CGRect = CGRect(x: 0, y: 0, width: 300, height: 400) // Adjust as needed
 
     func makeUIView(context: Context) -> WKWebView {
-           let webView = WKWebView()
+        let webView = WKWebView(frame: .zero)
            webView.navigationDelegate = context.coordinator
+        
            return webView
        }
        
@@ -34,7 +36,8 @@ struct NativeWebView: UIViewRepresentable {
              self.parent = parent
          }
        
-       func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+       func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                    decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
            print("webView:\(webView) decidePolicyForNavigationAction:\(navigationAction) decisionHandler:\(decisionHandler)")
 
            guard let url = navigationAction.request.url else {
@@ -44,10 +47,7 @@ struct NativeWebView: UIViewRepresentable {
            
            // Check if the URL has a custom scheme
            if url.scheme == "login-poc" {
-               // Handle the custom URL scheme here
-               // For example, print the URL
                print("Custom scheme detected: \(url)")
-
                self.parent.onClose()
 
                decisionHandler(.cancel)
