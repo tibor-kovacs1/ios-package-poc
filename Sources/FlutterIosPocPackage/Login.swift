@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import SafariServices
+
 
 @available(iOS 15.0, *)
 public struct LoginView: View {
@@ -26,10 +28,26 @@ public struct LoginView: View {
         }) {
             Text("Show WebView")
         }.sheet(isPresented: $showWebView) {
-            NativeWebView(url: URL(string: "http://localhost:3000/index")!, onClose: {
-                self.showWebView = false
-            })
+            SafariView(url: URL(string: "http://localhost:3000/index")!)
+//           NativeWebView(url: URL(string: "http://localhost:3000/index")!, onClose: {
+//                self.showWebView = false
+//            })
         }
+    }
+}
+
+
+@available(iOS 13.0, *)
+struct SafariView: UIViewControllerRepresentable {
+    let url: URL
+    
+    func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
+        let safariVC = SFSafariViewController(url: url)
+        return safariVC
+    }
+    
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {
+        // No updates needed
     }
 }
 
